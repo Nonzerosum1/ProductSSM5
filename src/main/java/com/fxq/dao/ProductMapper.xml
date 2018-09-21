@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.fxq.dao.ProductMapper">
+	<select id="queryProducts" resultType="com.fxq.model.Product">
+		select p.*, GROUP_CONCAT(pc.cid SEPARATOR ',') cids
+		from product p left join product_category pc on p.id=pc.pid
+		GROUP BY p.id
+	</select>	
+	
+	<select id="queryCategories" resultType="com.fxq.model.Category">
+		select * from category where id in
+		<foreach collection="ids" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</select>
+	
+	<insert id="insertProduct" useGeneratedKeys="true" keyProperty="id">
+		insert into product(name,price,createtime,detail) values (#{name},#{price},#{createtime},#{detail})
+	</insert>
+	
+	<insert id="insertProduct_category">
+		insert into product_category(pid,cid) values
+		<foreach collection="cids" item="cid" separator=",">
+			(#{pid},#{cid})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteProduct">
+		delete from product where id=#{id}
+	</delete>
+	
+	<delete id="deleteProduct_category">
+		delete from product_category where pid=#{pid}
+	</delete>
+	
+	<select id="queryProduct" resultType="com.fxq.model.Product">
+		select p.*, GROUP_CONCAT(pc.cid SEPARATOR ',') cids
+		from product p left join product_category pc on p.id=pc.pid
+		WHERE p.id=#{id}
+		GROUP BY p.id
+ 	</select>
+	
+	<select id="queryAllCategory" resultType="com.fxq.model.Category">
+		select * from category
+	</select>
+	
+	<update id="updateProduct">
+		update product 
+		set name=#{name}, price=#{price}, createtime=#{createtime}, detail=#{detail} 
+		where id=#{id}
+	</update>
+	
+	<update id="updateProduct_category">
+		update product_category
+		set 
+		<foreach collection="cids" item="cid">
+			cid=#{cid}
+		</foreach>
+		where pid=#{pid}
+	</update>
+	
+	<!-- 
+	<delete id="update_deleteProduct_category">
+		delete from product_category where pid=#{pid}
+	</delete>
+	 -->
+</mapper>
