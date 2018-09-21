@@ -16,7 +16,10 @@ public class ProductC {
 
 	@Autowired
 	private ProductService service;
-	
+	/**
+	 * 取得产品列表
+	 * @return
+	 */
 	@RequestMapping("/queryProducts.do")
 	public ModelAndView queryProducts() {
 		ModelAndView mv = new ModelAndView();
@@ -27,6 +30,11 @@ public class ProductC {
 		return mv;
 	}
 	
+	/**
+	 * 增加产品
+	 * @param product
+	 * @return
+	 */
 	@RequestMapping("/insertProduct.do")
 	public ModelAndView insertProduct(Product product) {
 		System.out.println(product);
@@ -44,6 +52,11 @@ public class ProductC {
 		return mv;
 	}
 	
+	/**
+	 * 删除产品
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/deleteProduct.do")
 	public ModelAndView deleteProduct(String id) {
 		System.out.println(id);
@@ -59,6 +72,11 @@ public class ProductC {
 		return mv;
 	}
 	
+	/**
+	 * 得到更新页面
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/getUpdateForm.do")
 	public ModelAndView queryProduct(String id) {
 		System.out.println(id);
@@ -71,6 +89,11 @@ public class ProductC {
 		return mv;
 	}
 	
+	/**
+	 * 更新产品
+	 * @param product
+	 * @return
+	 */
 	@RequestMapping("/updateProduct.do")
 	public ModelAndView updateProduct(Product product) {
 		System.out.println(product);
